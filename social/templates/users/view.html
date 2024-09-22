@@ -1,0 +1,20 @@
+{% extends 'yp/menu.html' %}
+{% load static %}
+{% block content %}
+
+{{user.username}}
+{{user.email}}
+
+<br>
+<br>
+{% for notif in user.notifications.all %}
+<a href='{{notif.url}}'>{{notif.text}}</a>
+<br>
+{% endfor %}
+<br>
+{% if the_user %}
+<a href="{% url 'users:logout' %}">logout</a>
+<button id="notifications-button">View Notifications</button>
+{% endif %}
+
+{% endblock content %}

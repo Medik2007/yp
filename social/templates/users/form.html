@@ -1,0 +1,16 @@
+{% extends 'yp/menu.html' %}
+{% load static %}
+{% block content %}
+<script type="text/javascript" src="{% static '/yp/js/forms.js' %}" defer></script>
+
+<pre><center>
+    <h1>User Stuff Form</h1>
+    <form method="post" id="form">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <input type="submit" value="Confirm">
+    </form>
+    <div id="message"></div>
+</center></pre>
+
+{% endblock content %}

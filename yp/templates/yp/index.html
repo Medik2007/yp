@@ -1,0 +1,12 @@
+{% extends 'yp/menu.html' %}
+{% block content %}
+
+<a href="{% url 'videos:index' %}">V</a>
+<br>
+<a href="{% url 'chanels:index' %}">C</a>
+<br>
+<a href="{% url 'studio:index' %}">S</a>
+<br>
+<a href="{% url 'users:index' %}">U</a>
+
+{% endblock content %}

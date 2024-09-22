@@ -1,0 +1,10 @@
+{% extends 'yp/menu.html' %}
+{% load static %}
+{% block content %}
+
+{% for user in all_users %}
+    {{user.username}}
+    <br>
+{% endfor %}
+
+{% endblock content %}

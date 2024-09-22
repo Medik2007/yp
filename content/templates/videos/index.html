@@ -1,0 +1,10 @@
+{% extends 'yp/menu.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'ui/css/videos.css' %}">
+{% endblock head %}
+
+{% block content %}
+    {% include "ui/videos.html" with videos=videos width=20 %}
+{% endblock content %}

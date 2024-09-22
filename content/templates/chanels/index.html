@@ -1,0 +1,10 @@
+{% extends 'yp/menu.html' %}
+{% load static %}
+{% block content %}
+
+{% for chanel in all_chanels%}
+    <a href="{% url 'chanels:view' chanel.id %}">{{chanel.name}}</a>
+    <br>
+{% endfor %}
+
+{% endblock content %}

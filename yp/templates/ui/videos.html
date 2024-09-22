@@ -1,0 +1,25 @@
+{% load static %}
+
+{% block content %}
+
+<div class="videos">
+{% for video in videos %}
+    <div class="video" style="width: calc({{width}}% - 20px)">
+        <a href="{% url 'videos:view' video.id %}">
+            <img class="video-preview" alt="Video Preview" src="{{video.img}}">
+        </a>
+        <div class="video-info">
+            <a href="{% url 'chanels:view' video.chanel.id %}">
+                <img class="video-chanel-logo" alt="Video Chanel Logo" src="{{video.chanel.img}}">
+            </a>
+            <a class="video-additional-info" href="{% url 'videos:view' video.id %}">
+                <h3>{{video.name}}</h3>
+                <p>{{video.chanel.name}}</p>
+                <p>{{video.likes}} likes - {{video.date}}</p>
+            </a>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+{% endblock content %}

@@ -1,0 +1,134 @@
+{% load static %}
+{% block content %}
+
+
+<h3>Comments</h3>
+<form id="comment-form">
+    <img id="user-profile" style="width: 40px;" alt="User Profile Image" src="{{ request.user.img  }}">
+    <input type="text" id="comment-input" placeholder="Write a comment...">
+    <input type="submit" id="comment-submit" value="Comment">
+</form>
+
+<div id="comments-container">
+    {% for comment in comments %}
+        
+    <div id="comment-{{comment.id}}" class="comment">
+
+        <div id="comment-div-{{comment.id}}" class="comment-div">
+            <a href="{% url 'users:view' comment.author.username %}">
+                <img alt="Comment Author Profile Image" src="{{ comment.author.img  }}">
+            </a>
+            <div style="width: 100%;">
+                <div class="comment-text">
+                    <h4>@{{ comment.author.username }}</h4>
+                    <p id="comment-text-{{comment.id}}">{{ comment.text }}</p>
+                    {% if comment.author == request.user %}
+                        <form class="edit-comment-form" id="edit-comment-form-{{comment.id}}" style="display: none;"
+                            onsubmit="comment_edit(event, '{{comment.id}}')">
+                            <input type="text" id="edit-comment-input-{{comment.id}}" placeholder="Edit your comment..." value="{{comment.text}}">
+                            <button type="button" class="submit"
+                                onclick="hide_element('edit-comment-form-{{comment.id}}'); show_element('comment-text-{{comment.id}}')">Cancel</button>
+                            <input type="submit" value="Edit">
+                        </form>
+                    {% endif %}
+                </div>
+                <div class="comment-buttons">
+
+                    <div class="comment-like-div">
+                        <p class="comment-like-count" id="comment-like-count-{{comment.id}}">{{ comment.likes }}</p>
+                        {% if comment in request.user.liked_comments.all %}
+                            <img id="comment-like-button-{{comment.id}}" class="comment-like-button" alt="settings"
+                                src="{% static 'ui/img/like.png' %}" onclick="comment_like(event, '{{comment.id}}')">
+                        {% else %}
+                            <img id="comment-like-button-{{comment.id}}" class="comment-like-button" alt="settings"
+                                src="{% static 'ui/img/dislike.png' %}" onclick="comment_like(event, '{{comment.id}}')">
+                        {% endif %}
+                    </div>
+
+                    <button class="submit" onclick="show_element('answer-comment-form-{{comment.id}}', 'flex')">Answer</button>
+
+                    {% if comment.author == request.user %}
+                        <div>
+                            <button class="submit" onclick="toggle_element('comment-manage-{{comment.id}}', 'flex')">Manage</button>
+                            <div id="comment-manage-{{comment.id}}" class="comment-manage" style="display: none;">
+                                <button class="submit" style="background-color: orange;"
+                                    onclick="show_element('edit-comment-form-{{comment.id}}', 'flex'); hide_element('comment-text-{{comment.id}}');
+                                    hide_element('comment-manage-{{comment.id}}')" id="comment-edit-button-{{comment.id}}">Edit</button>
+                                <button class="submit" style="background-color: red;" onclick="comment_delete(event, '{{comment.id}}')"
+                                    id="comment-delete-button-{{comment.id}}">Delete</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <form id="answer-comment-form-{{comment.id}}" style="display: none;" onsubmit="comment_answer(event, '{{comment.id}}')">
+                    <input type="text" id="answer-comment-input-{{comment.id}}" placeholder="Write an answer...">
+                    <button type="button" class="submit" onclick="hide_element('answer-comment-form-{{comment.id}}')">Cancel</button>
+                    <input type="submit" value="Answer">
+                </form>
+            </div>
+        </div>
+        <div id="comment-answers-{{comment.id}}" class="comment-answers">
+
+            {% for answer in comment.answers.all %}
+
+            <div id="comment-{{answer.id}}">
+
+            <div id="answer-div-{{answer.id}}" class="comment-div answer-div">
+                <a href="{% url 'users:view' answer.author.username %}">
+                    <img alt="Comment Author Profile Image" src="{{ answer.author.img  }}">
+                </a>
+                <div style="width: 100%;">
+                    <div class="comment-text">
+                        <h4>@{{ answer.author.username }}</h4>
+                        <p id="comment-text-{{answer.id}}">{{ answer.text }}</p>
+                        {% if answer.author == request.user %}
+                            <form class="edit-comment-form" id="edit-comment-form-{{answer.id}}" style="display: none;"
+                                onsubmit="comment_edit(event, '{{answer.id}}')">
+                                <input type="text" id="edit-comment-input-{{answer.id}}" placeholder="Edit your comment..." value="{{answer.text}}">
+                                <button type="button" class="submit"
+                                    onclick="hide_element('edit-comment-form-{{answer.id}}'); show_element('comment-text-{{answer.id}}')">Cancel</button>
+                                <input type="submit" value="Edit">
+                            </form>
+                        {% endif %}
+                    </div>
+                    <div class="comment-buttons">
+
+                        <div class="comment-like-div">
+                            <p class="comment-like-count" id="comment-like-count-{{answer.id}}">{{ answer.likes }}</p>
+                            {% if answer in request.user.liked_comments.all %}
+                                <img id="comment-like-button-{{answer.id}}" class="comment-like-button" alt="settings"
+                                    src="{% static 'ui/img/like.png' %}" onclick="comment_like(event, '{{answer.id}}')">
+                            {% else %}
+                                <img id="comment-like-button-{{answer.id}}" class="comment-like-button" alt="settings"
+                                    src="{% static 'ui/img/dislike.png' %}" onclick="comment_like(event, '{{answer.id}}')">
+                            {% endif %}
+                        </div>
+
+                        {% if answer.author == request.user %}
+                            <div>
+                                <button class="submit" onclick="toggle_element('comment-manage-{{answer.id}}', 'flex')">Manage</button>
+                                <div id="comment-manage-{{answer.id}}" class="comment-manage" style="display: none;">
+                                    <button class="submit" style="background-color: orange;"
+                                        onclick="show_element('edit-comment-form-{{answer.id}}', 'flex'); hide_element('comment-text-{{answer.id}}');
+                                        hide_element('comment-manage-{{answer.id}}')" id="comment-edit-button-{{answer.id}}">Edit</button>
+                                    <button class="submit" style="background-color: red;" onclick="comment_delete(event, '{{answer.id}}')"
+                                        id="comment-delete-button-{{answer.id}}">Delete</button>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+            {% endfor %}
+ 
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+
+{% endblock content %}

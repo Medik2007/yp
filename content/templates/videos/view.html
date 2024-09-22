@@ -1,0 +1,87 @@
+{% extends 'yp/menu.html' %}
+{% load static %}
+
+{% block head %}
+<title>{{ video.name }}</title>
+<link rel="stylesheet" type="text/css" href="{% static 'yp/css/input.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'ui/css/comments.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'videos/css/view.css' %}">
+<script type="text/javascript" src="{% static '/ui/js/reactions.js' %}" defer></script>
+<script type="text/javascript" src="{% static '/chanels/js/view.js' %}" defer></script>
+{% endblock head %}
+
+{% block content %}
+<iframe width="100%" height="700" id="video" src="https://www.youtube.com/embed/rSDoXnslLsg/" title="{{video.name}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<div id="video-container">
+
+    <div id="video-info">
+        <h1>{{ video.name }}</h1>
+        
+        <div id="video-chanel">
+            <a href="{% url 'chanels:view' video.chanel.id %}">
+                <img id="video-chanel-logo" alt="Video Chanel Logo" src="{{ video.chanel.img }}">
+            </a>
+            <a id="video-chanel-info" href="{% url 'chanels:view' video.chanel.id %}">
+                <h3>{{ video.chanel.name }}</h3>
+                <p id="subscribers-count">{{ video.chanel.subs }} subscribers</p>
+                {% if subscribed %}
+                    <button id='subscribe-button' style="background-color: #d6ccc2;">Subscribed</button>
+                {% else %}
+                    <button id='subscribe-button' style="background-color: #d7443e;">Subscribe</button>
+                {% endif %}
+            </a>
+            <div id='like-div'>
+                {% if video in request.user.liked_videos.all %}
+                    <img id='like-button' src="{% static 'ui/img/like.png' %}">
+                {% else %}
+                    <img id='like-button' src="{% static 'ui/img/dislike.png' %}">
+                {% endif %}
+                <div id="like-count">{{ video.likes }}</div>
+            </div>
+        </div>
+
+        <div id="video-about">
+            <div id="video-about-desc">
+                <h4>About</h4>
+                <p>{{ video.date }}</p>
+                <p>{{ video.desc }}</p>
+            </div>
+            <div id="video-about-authors">
+                <h4>Video Authors</h4>
+                {% for author in video.authors.all %}
+                    <a class="author" href="{% url 'users:view' author.username %}">
+                        <img alt="Video Author Profile Image" src="{{ author.img  }}">
+                        <p>@{{ author.username }}</p>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% include "ui/comments.html" with comments=comments %}
+
+
+        <p id="authentication_error" style="display: none;">YOU SHOULD BE AUTHENTICATED</p>
+
+    </div>
+    <div id="other-videos">
+        {% for video in other_videos %}
+            <a href="{% url 'videos:view' video.id %}">
+            <div class="video">
+                <img class="video-preview" alt="Video Preview" src="{{video.img}}">
+                <div class="video-info">
+                    <div>
+                        <h3>{{video.name}}</h3>
+                        <p>{{video.chanel.name}}</p>
+                        <p>{{video.date}}</p>
+                        <p>{{video.likes}} likes</p>
+                    </div>
+                </div>
+            </div>
+            <a/>
+        {% endfor %}
+    </div>
+    <div></div>
+</div>
+
+{% endblock content %}

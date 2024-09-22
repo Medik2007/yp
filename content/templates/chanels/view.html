@@ -1,0 +1,36 @@
+{% extends 'yp/menu.html' %}
+{% load static %}
+
+{% block head %}
+<script type="text/javascript" src="{% static '/chanels/js/view.js' %}" defer></script>
+<link rel="stylesheet" type="text/css" href="{% static 'chanels/css/view.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'ui/css/videos.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'yp/css/input.css' %}">
+{% endblock head %}
+
+{% block content %}
+
+<div id="chanel">
+    <div id="chanel-info">
+        <img id="chanel-img" src={{ chanel.img }}>
+        <div id="chanel-name">
+            <h1>{{ chanel.name }}</h1>
+            <h3 id="subscribers-count">{{ chanel.subs }} subscribers</h3>
+            {% if subscribed %}
+                <button id='subscribe-button' style="background-color: #d6ccc2;">Subscribed</button>
+            {% else %}
+                <button id='subscribe-button' style="background-color: #d7443e;">Subscribe</button>
+            {% endif %}
+        </div>
+    </div>
+    <p>{{ chanel.owner }}</p>
+    {% for admin in chanel.admins.all %}
+        <p>{{ admin.username }}</p>
+    {% endfor %}
+
+<a href="{% url 'studio:add' 'v' %}?chanel={{chanel.name}}">A</a>
+
+</div>
+{% include "ui/videos.html" with videos=chanel.videos.all width=25 %}
+
+{% endblock content %}

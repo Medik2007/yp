@@ -1,0 +1,28 @@
+.videos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-left: 20px;
+    gap: 20px;
+}
+.video {
+    display: flex;
+    flex-direction: column;
+}
+.video-preview {
+    width: 100%;
+}
+.video-chanel-logo {
+    height: 50px;
+    margin-right: 10px;
+}
+.video-additional-info {
+    width: 100%;
+}
+.video-info {
+    display: flex;
+    width: 100%;
+}
+.video h3 {
+    margin-top: 5px;
+}

@@ -1,0 +1,14 @@
+{% extends 'yp/menu.html' %}
+{% load static %}
+{% block content %}
+
+<a href="{% url 'studio:add' type %}">A</a>
+<br>
+{% for obj in all_obj %}
+    <a href="{{obj.view_url}}">{{obj.name}}</a>
+    <a href="{% url 'studio:edit' type obj.id %}">E</a>
+    <a href="{% url 'studio:delete' type obj.id %}">X</a>
+    <br>
+{% endfor %}
+
+{% endblock content %}
