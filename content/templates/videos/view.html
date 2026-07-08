@@ -11,13 +11,16 @@
 {% endblock head %}
 
 {% block content %}
-<iframe width="100%" height="700" id="video" src="https://www.youtube.com/embed/rSDoXnslLsg/" title="{{video.name}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="700" src="https://www.youtube.com/embed/rSDoXnslLsg"
+    title="Skyrim but it&#39;s lofi beats | No AI" frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 <div id="video-container">
 
     <div id="video-info">
         <h1>{{ video.name }}</h1>
-        
+
         <div id="video-chanel">
             <a href="{% url 'chanels:view' video.chanel.id %}">
                 <img id="video-chanel-logo" alt="Video Chanel Logo" src="{{ video.chanel.img }}">
@@ -26,16 +29,16 @@
                 <h3>{{ video.chanel.name }}</h3>
                 <p id="subscribers-count">{{ video.chanel.subs }} subscribers</p>
                 {% if subscribed %}
-                    <button id='subscribe-button' style="background-color: #d6ccc2;">Subscribed</button>
+                <button id='subscribe-button' style="background-color: #d6ccc2;">Subscribed</button>
                 {% else %}
-                    <button id='subscribe-button' style="background-color: #d7443e;">Subscribe</button>
+                <button id='subscribe-button' style="background-color: #d7443e;">Subscribe</button>
                 {% endif %}
             </a>
             <div id='like-div'>
                 {% if video in request.user.liked_videos.all %}
-                    <img id='like-button' src="{% static 'ui/img/like.png' %}">
+                <img id='like-button' src="{% static 'ui/img/like.png' %}">
                 {% else %}
-                    <img id='like-button' src="{% static 'ui/img/dislike.png' %}">
+                <img id='like-button' src="{% static 'ui/img/dislike.png' %}">
                 {% endif %}
                 <div id="like-count">{{ video.likes }}</div>
             </div>
@@ -50,10 +53,10 @@
             <div id="video-about-authors">
                 <h4>Video Authors</h4>
                 {% for author in video.authors.all %}
-                    <a class="author" href="{% url 'users:view' author.username %}">
-                        <img alt="Video Author Profile Image" src="{{ author.img  }}">
-                        <p>@{{ author.username }}</p>
-                    </a>
+                <a class="author" href="{% url 'users:view' author.username %}">
+                    <img alt="Video Author Profile Image" src="{{ author.img  }}">
+                    <p>@{{ author.username }}</p>
+                </a>
                 {% endfor %}
             </div>
         </div>
@@ -66,7 +69,7 @@
     </div>
     <div id="other-videos">
         {% for video in other_videos %}
-            <a href="{% url 'videos:view' video.id %}">
+        <a href="{% url 'videos:view' video.id %}">
             <div class="video">
                 <img class="video-preview" alt="Video Preview" src="{{video.img}}">
                 <div class="video-info">
@@ -78,8 +81,8 @@
                     </div>
                 </div>
             </div>
-            <a/>
-        {% endfor %}
+            <a />
+            {% endfor %}
     </div>
     <div></div>
 </div>
